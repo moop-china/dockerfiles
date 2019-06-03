@@ -1,0 +1,46 @@
+# FROM jupyter/scipy-notebook:abdb27a6dfbb
+FROM conda/miniconda3
+
+LABEL maintainer="Lirongfan <lirongfan@orientsoft.cn>"
+
+COPY ./environment.yml ./environment.yml
+RUN conda env create -f environment.yml
+
+EXPOSE 8888
+
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
+
+RUN useradd -m -s /bin/bash -N --uid $NB_UID $NB_USER \
+    && apt update \
+    && apt-get -y install libevent-dev gcc
+
+ENV HOME=/home/$NB_USER \
+    PRO_HOME=/home/$NB_USER/project/pro_root_treatment \
+    ENV_NAME="pytorch_0.4.1" \
+    LC_ALL=zh_CN.UTF-8 \
+    LANG=zh_CN.UTF-8 \
+    LANGUAGE=zh_CN:zh:en_US:en
+
+WORKDIR $HOME
+
+COPY ./files/ ./
+RUN bash ./env_fix.sh
+
+COPY ./root-treatment/ ${PRO_HOME}
+RUN chown -R $NB_USER:$NB_GID ${PRO_HOME} \
+    && cp $HOME/start.sh /usr/local/bin/
+
+RUN rm -f /opt/conda/bin/jupyterhub-singleuser && ln -s /usr/local/bin/start.sh /usr/local/bin/jupyterhub-singleuser
+
+RUN apt-get -y install locales \
+    && echo zh_CN.UTF-8 UTF-8 >> /etc/locale.gen \
+    && echo en_US.UTF-8 UTF-8 >> /etc/locale.gen \
+    && locale-gen
+
+USER $NB_USER
+RUN bash ./compile.sh
+
+# ENTRYPOINT ["bash"]
+CMD ["jupyterhub-singleuser"]
