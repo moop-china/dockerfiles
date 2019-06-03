@@ -1,0 +1,16 @@
+IPython
+PIL
+gensim
+matplotlib
+nltk
+numpy
+pandas
+pydotplus
+pylab
+seaborn
+sklearn
+tensorboardX
+tensorflow
+torch
+torchvision
+tqdm
