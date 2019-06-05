@@ -9,7 +9,8 @@ dependencies:
   - backports.functools_lru_cache=1.5=py_1
   - backports.shutil_get_terminal_size=1.0.0=py_3
   - backports_abc=0.5=py_1
-  - blas=2.10=openblas
+  # - blas=2.10=openblas
+  - blas=2.10
   - bleach=3.1.0=py_0
   - ca-certificates=2019.3.9=hecc5488_0
   - cairo=1.16.0=ha4e643d_1000
@@ -20,7 +21,8 @@ dependencies:
   - cython=0.29.7=py27he1b5a44_0
   - cytoolz=0.9.0.1=py27h14c3975_1001
   - dask-core=1.2.2=py_0
-  - dbus=1.13.6=he372182_0
+  # - dbus=1.13.6=he372182_0
+  - dbus=1.13.6
   - decorator=4.4.0=py_0
   - defusedxml=0.5.0=py_1
   - entrypoints=0.3=py27_1000
@@ -29,8 +31,8 @@ dependencies:
   - functools32=3.2.3.2=py_3
   - futures=3.2.0=py27_1000
   - glib=2.58.3=hf63aee3_1001
-  - gst-plugins-base=1.14.4=hdf3bae2_1001
-  - gstreamer=1.14.4=h66beb1c_1001
+  - gst-plugins-base=1.14.4
+  - gstreamer=1.14.4
   - harfbuzz=2.4.0=h37c48d4_0
   - imageio=2.5.0=py27_0
   - ipaddress=1.0.22=py_1
@@ -45,10 +47,11 @@ dependencies:
   - jupyterlab_launcher=0.11.2=py_0
   - kiwisolver=1.1.0=py27hc9558a2_0
   - lame=3.100=h14c3975_1001
-  - libblas=3.8.0=10_openblas
-  - libcblas=3.8.0=10_openblas
-  - liblapack=3.8.0=10_openblas
-  - liblapacke=3.8.0=10_openblas
+  # - libblas=3.8.0=10_openblas
+  - libblas=3.8.0
+  - libcblas=3.8.0
+  - liblapack=3.8.0
+  - liblapacke=3.8.0
   - libsodium=1.0.16=h14c3975_1001
   - libxml2=2.9.9=h13577e0_0
   - markupsafe=1.1.1=py27h14c3975_0
@@ -60,9 +63,12 @@ dependencies:
   - notebook=5.7.8=py27_0
   - numpy=1.16.3=py27he5ce36f_0
   - olefile=0.46=py_0
-  - openblas=0.3.6=h6e990d7_2
-  - opencv=4.1.0=py27h4a2692f_3
-  - openssl=1.1.1b=h14c3975_1
+  # - openblas=0.3.6=h6e990d7_2
+  # - openblas=0.3.6
+  # - opencv=4.1.0=py27h4a2692f_3
+  - opencv
+  # - openssl=1.1.1b=h14c3975_1
+  - openssl
   - pandoc=2.7.2=0
   - pandocfilters=1.4.2=py_1
   - pathlib2=2.3.3=py27_1000
@@ -79,7 +85,8 @@ dependencies:
   - pytz=2019.1=py_0
   - pywavelets=1.0.3=py27hd352d35_1
   - pyzmq=18.0.1=py27hc4ba49a_1
-  - qt=5.9.7=h52cfd70_1
+  # - qt=5.9.7=h52cfd70_1
+  # - qt=5.9.7
   - scandir=1.10.0=py27h14c3975_0
   - scikit-image=0.14.2=py27hf484d3e_1
   - scipy=1.2.1=py27h09a28d5_1
@@ -134,10 +141,12 @@ dependencies:
   - pip=19.0.3=py27_0
   - pixman=0.34.0=h14c3975_1003
   - pthread-stubs=0.4=h14c3975_1001
+  # - python=2.7.15=h721da81_1007
   - python=2.7.15
   - readline=7.0=hf8c457e_1001
   - setuptools=40.8.0=py27_0
-  - sqlite=3.26.0=h67949de_1000
+  # - sqlite=3.26.0=h67949de_1000
+  - sqlite
   - tk=8.6.9=h84994c4_1000
   - wheel=0.33.1=py27_0
   - xorg-kbproto=1.0.7=h14c3975_1002
@@ -166,7 +175,7 @@ dependencies:
     - lazy-object-proxy==1.3.1
     - matplotlib==2.2.3
     - mccabe==0.6.1
-    - mxnet==1.5.0
+    - mxnet==1.4.1
     - nose==1.3.7
     - nose-timer==0.7.4
     - pylint==1.8.3

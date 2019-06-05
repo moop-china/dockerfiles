@@ -31,5 +31,5 @@ RUN bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'
 ENTRYPOINT ["bash"]
 CMD ["/usr/local/bin/my_start.sh"]
 
-COPY ./notebooks/ ./jupyter_chinese
+# COPY ./notebooks/ ./jupyter_chinese
 # /usr/local/bin/start-notebook.sh

@@ -1,3 +1,0 @@
-bs4
-tushare
-pandas_datareader

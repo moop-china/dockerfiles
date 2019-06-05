@@ -1,5 +1,7 @@
 FROM conda/miniconda3
 
+LABEL maintainer="Lirongfan <lirongfan@orientsoft.cn>"
+
 COPY ./environment.yml ./environment.yml
 RUN conda env create -f environment.yml
 
@@ -9,39 +11,35 @@ ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
-RUN apt update \
-    && apt install -y libgl1-mesa-glx \
+RUN useradd -m -s /bin/bash -N --uid $NB_UID $NB_USER \
+    && apt-get update \
+    && apt-get install -y libgl1-mesa-glx \
     make \
     locales \
     && echo zh_CN.UTF-8 UTF-8 >> /etc/locale.gen \
     && echo en_US.UTF-8 UTF-8 >> /etc/locale.gen \
-    && locale-gen \
-    && useradd -m -s /bin/bash -N --uid $NB_UID $NB_USER
+    && locale-gen
 
 ENV HOME=/home/$NB_USER \
     PRO_HOME=/home/$NB_USER/project/pro_face_detection \
-    ENV_NAME="mxnet_python2" \
-    LC_ALL=zh_CN.UTF-8 \
-    LANG=zh_CN.UTF-8 \
-    LANGUAGE=zh_CN:zh:en_US:en
+    ENV_NAME="mxnet_python2" 
+    # LC_ALL=zh_CN.UTF-8 \
+    # LANG=zh_CN.UTF-8 \
+    # LANGUAGE=zh_CN:zh:en_US:en
+
+# change LANG will bring serious problem, because python2.7 use acill as default encoding
 
 WORKDIR $HOME
-
-
-
-COPY ./env_fix.sh ./
-RUN bash ./env_fix.sh
 
 COPY ./face-detection ${PRO_HOME}
 COPY ./files/ ./
 
 RUN chown -R $NB_USER:$NB_GID ${PRO_HOME} \
-    && cp $HOME/start.sh /usr/local/bin/ \
-    && rm -f /opt/conda/bin/jupyterhub-singleuser \
-    && ln -s /usr/local/bin/start.sh /usr/local/bin/jupyterhub-singleuser
+    && mv $HOME/start.sh /usr/local/bin/my_start.sh 
 
 RUN bash ./compile.sh
 
 # ENTRYPOINT ["bash"]
-CMD ["jupyterhub-singleuser"]
-# /usr/local/bin
+CMD ["/usr/local/bin/my_start.sh"]
+# CMD ["/bin/bash"]
+# mind that the model haven't load to PRO_HOME
