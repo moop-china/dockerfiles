@@ -1,0 +1,128 @@
+FROM alpine:3.9
+
+ARG VCS_REF
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
+ARG SHELL_DIR=/usr/local/bin
+
+# Inspired by :
+# * https://github.com/jupyter/docker-stacks
+# * https://github.com/CognitiveScale/alpine-miniconda
+# * https://hub.docker.com/r/show0k/alpine-miniconda/dockerfile
+
+COPY ./files/ ./
+# Install glibc and useful packages
+RUN mv ./sgerrand.rsa.pub /etc/apk/keys/sgerrand.rsa.pub &&\
+    mv ./fix-permissions $SHELL_DIR &&\
+    mv ./my_start.sh $SHELL_DIR  \
+    && echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk --update add \
+    bash \
+    git \
+    curl \
+    ca-certificates \
+    bzip2 \
+    unzip \
+    sudo \
+    libstdc++ \
+    glib \
+    libxext \
+    libxrender \
+    tini@testing \
+    fontconfig \
+    texlive-xetex \
+    texmf-dist-latexextra \
+    # https://pkgs.alpinelinux.org/package/edge/community/ppc64le/texmf-dist-full for more latex packages
+    && curl -L "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-2.29-r0.apk" -o glibc.apk \
+    && apk add glibc.apk \
+    && curl -L "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.29-r0/glibc-bin-2.29-r0.apk" -o glibc-bin.apk \
+    && apk add glibc-bin.apk \
+    && /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc/usr/lib \
+    && rm -rf glibc*apk /var/cache/apk/*
+
+# Configure environment
+ENV CONDA_DIR /opt/conda
+ENV PATH $CONDA_DIR/bin:$PATH
+ENV SHELL /bin/bash
+ENV NB_USER $NB_USER
+ENV NB_UID $NB_UID
+# ENV LC_ALL en_US.UTF-8
+# ENV LANG en_US.UTF-8
+# ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL=zh_CN.UTF-8
+ENV LANG=zh_CN.UTF-8
+ENV LANGUAGE=zh_CN:zh:en_US:en
+
+# Configure Miniconda
+# ENV MINICONDA_VER 4.2.12
+ENV MINICONDA_VER 4.6.14
+ENV MINICONDA Miniconda3-$MINICONDA_VER-Linux-x86_64.sh
+ENV MINICONDA_URL https://repo.continuum.io/miniconda/$MINICONDA
+# https://repo.continuum.io/miniconda/ for md5 
+ENV MINICONDA_MD5_SUM 718259965f234088d785cad1fbd7de03
+
+# Create jovyan user with UID=1000 and in the 'users' group
+RUN adduser -s /bin/bash -u $NB_UID -D $NB_USER && \
+    mkdir -p /opt/conda && \
+    chown $NB_USER /opt/conda
+
+USER $NB_UID
+
+# Setup jovyan home directory
+RUN mkdir /home/$NB_USER/work && \
+    mkdir /home/$NB_USER/.jupyter && \
+    mkdir /home/$NB_USER/.local
+
+# Install conda as jovyan
+RUN cd /tmp && \
+    mkdir -p $CONDA_DIR && \
+    curl -L $MINICONDA_URL  -o miniconda.sh && \
+    echo "$MINICONDA_MD5_SUM  miniconda.sh" | md5sum -c - && \
+    /bin/bash miniconda.sh -f -b -p $CONDA_DIR && \
+    rm miniconda.sh && \
+    $CONDA_DIR/bin/conda install --yes conda==$MINICONDA_VER
+
+# Install Jupyter Notebook, Lab, and Hub
+# Generate a notebook server config
+# Cleanup temporary files
+# Correct permissions
+# Do all this in a single RUN command to avoid duplicating all of the
+# files across image layers when the permissions change
+RUN $CONDA_DIR/bin/conda config --system --prepend channels conda-forge &&\
+    conda install --quiet --yes \
+    'notebook=5.7.8' \
+    'jupyterhub=1.0.0' \
+    'jupyterlab=0.35.5' \
+    'numpy=1.16*' \
+    'pandas=0.24*' \
+    'matplotlib=3.0*' \
+    'scipy=1.2*' \
+    'jupyter_contrib_nbextensions' && \
+    conda remove --quiet --yes --force qt pyqt && \
+    conda clean --all -f -y &&\
+    # Activate ipywidgets extension in the environment that runs the notebook server
+    # jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    # jupyter labextension install @jupyterlab/hub-extension@^0.12.0 && \
+    # jupyter labextension install @jupyter-widgets/jupyterlab-manager@^0.38.1 && \
+    # jupyter labextension install jupyterlab_bokeh@0.6.3 && \
+    npm cache clean --force &&\
+    jupyter notebook --generate-config && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
+USER root
+WORKDIR /home/$NB_USER
+
+COPY ./temporary/ ./temporary/
+
+ENV HOME=/home/$NB_USER
+ENV ENV_NAME=base
+
+RUN bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'
+
+EXPOSE 8888
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD [ "/bin/bash" ]
