@@ -129,3 +129,6 @@ rm -r ${HOME}/test_files
 rm -r ${HOME}/finished_notebooks
 
 echo 'please manually flash cache if exist, under $HOME/.cache/matplotlib'
+
+source activate $ENV_NAME
+python -m ipykernel install --user --name reco_base --display-name "Python (reco_base)"
