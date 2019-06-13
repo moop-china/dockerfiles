@@ -1,7 +1,0 @@
-# FROM jupyterhub/singleuser
-FROM jupyterhub/k8s-singleuser-sample:0.9-b51ffeb
-
-COPY ./jupyterhub-singleuser /usr/local/bin/jupyterhub-singleuser_test
-RUN rm /opt/conda/bin/jupyterhub-singleuser && ln -s /usr/local/bin/jupyterhub-singleuser_test /opt/conda/bin/jupyterhub-singleuser
-# CMD ["jupyterhub-singleuser"]
-# 有则将器转化为符号链接，没有则自己创建在/usr/local/bin下
