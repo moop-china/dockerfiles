@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook:be289da10d60
+FROM jupyter/scipy-notebook:d4cbf2f80a2a
 
 LABEL maintainer="Lirongfan <lirongfan@orientsoft.cn>"
 

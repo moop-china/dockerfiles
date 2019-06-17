@@ -8,11 +8,9 @@ conda info -e
 python --version
 
 # prepare notebooks
-notebook_dir=${HOME}'/jupyter_chinese'
+notebook_dir=${HOME}
 mkdir $notebook_dir
 chmod 777 $notebook_dir -R
-cp -r ${HOME}/test_files/* $notebook_dir
-cp -r ${HOME}/finished_notebooks/* $notebook_dir
 cp ${HOME}/temporary/my_start.sh /usr/local/bin/my_start.sh
 
 # prepare environment variables
@@ -125,10 +123,5 @@ chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
 
 # ------
 rm -r ${HOME}/temporary
-rm -r ${HOME}/test_files
-rm -r ${HOME}/finished_notebooks
 
 echo 'please manually flash cache if exist, under $HOME/.cache/matplotlib'
-
-source activate $ENV_NAME
-python -m ipykernel install --user --name reco_base --display-name "Python (reco_base)"

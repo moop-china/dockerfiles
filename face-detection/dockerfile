@@ -16,14 +16,14 @@ RUN apt-get update\
     && apt-get -y autoremove && apt-get -y autoclean\
     && rm -rf /var/lib/apt/lists/* 
 
-COPY ./requirements.txt ./
-
 RUN rm /opt/conda/conda-meta/pinned\
-    && conda install -y -c conda-forge -c pytorch -c simpleitk --file requirements.txt \
-    && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8
-
-COPY ./requirements_pip.txt ./
-RUN pip install -r requirements_pip.txt
+    && conda install -c conda-forge -c anaconda \
+    jupyter_contrib_nbextensions \
+    babel \
+    autopep8 \
+    nb_conda \
+    matplotlib \
+    cython
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -38,15 +38,20 @@ ENV PRO_HOME=/home/$NB_USER/project/pro_face_detection
 ENV PATH=$CONDA_DIR/bin:$PATH
 
 WORKDIR $HOME
-COPY ./files/ ./
-COPY ./face-detection ${PRO_HOME}
 
-RUN chown -R $NB_USER:$NB_GID ${PRO_HOME} \
+COPY ./files/environment.yml ./
+RUN conda env create -f environment.yml
+
+COPY ./files/ ./
+RUN bash env_fix.sh \
     && mv $HOME/my_start.sh /usr/local/bin/my_start.sh \
     && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh' \
-    && bash ./compile.sh \
-    && fix-permissions /home/$NB_USER
+    && fix-permissions /home/$NB_USER \
+    && conda clean --all -f -y\
+    && rm -rf temporary env_fix.sh environment.yml work
 
 EXPOSE 8888
 ENTRYPOINT ["bash"]
-# CMD ["/usr/local/bin/my_start.sh"]
+CMD ["/usr/local/bin/my_start.sh"]
+# COPY ./pro_face_detection ${PRO_HOME}
+# COPY ./pro_face_detection ./
