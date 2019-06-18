@@ -1,0 +1,46 @@
+FROM jupyter/base-notebook:38f518466042
+
+LABEL maintainer="Lirongfan <lirongfan@orientsoft.cn>"
+
+USER root
+
+RUN apt-get update\
+    # chinese localization
+    && apt-get install -y fontconfig \
+    ttf-mscorefonts-installer\
+    texlive-xetex\
+    latex-cjk-chinese\
+    texlive-fonts-recommended\
+    language-pack-zh-hans language-pack-zh-hans-base\
+    make\
+    && apt-get -y autoremove && apt-get -y autoclean\
+    && rm -rf /var/lib/apt/lists/* 
+
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
+
+ENV LC_ALL=zh_CN.UTF-8 
+ENV LANG=zh_CN.UTF-8 
+ENV LANGUAGE=zh_CN:zh:en_US:en
+ENV ENV_NAME="base" 
+ENV HOME=/home/$NB_USER 
+ENV PRO_HOME=/home/$NB_USER/project/pro_et_factor
+ENV PATH=$CONDA_DIR/bin:$PATH
+
+EXPOSE 8888
+WORKDIR $HOME
+
+COPY ./files/ ./
+
+RUN rm /opt/conda/conda-meta/pinned\
+    && conda install -y -c conda-forge --file requirements.txt \
+    && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
+    && mv $HOME/my_start.sh /usr/local/bin/my_start.sh \
+    && rm -f requirements.txt \
+    && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh' \
+    && fix-permissions /home/$NB_USER
+
+ENTRYPOINT ["bash"]
+CMD ["/usr/local/bin/my_start.sh"]
+# COPY ./探索患ET的危险因子 ${PRO_HOME}
