@@ -25,8 +25,9 @@ COPY ./requirements* ./
 RUN rm /opt/conda/conda-meta/pinned\
     && conda install -y -c conda-forge -c pytorch -c simpleitk --file requirements.txt \
     && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
+    && conda clean --all -y \
     # notebooks' dependences
-    && pip install -r requirements_pip.txt
+    && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -39,7 +40,6 @@ ENV HOME=/home/$NB_USER
 ENV PATH=$CONDA_DIR/bin:$PATH
 
 ENV ENV_NAME="base" 
-ENV PRO_HOME=/home/$NB_USER/project/pro_HbA1c
 
 COPY ./files/ ./
 
@@ -52,4 +52,3 @@ USER $NB_USER
 WORKDIR $HOME
 ENTRYPOINT ["bash"]
 CMD ["/usr/local/bin/my_start.sh"]
-COPY ./HbA* $PRO_HOME

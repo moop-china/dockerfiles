@@ -25,11 +25,8 @@ RUN apt-get update\
     autopep8
 
 ENV LC_ALL=zh_CN.UTF-8 LANG=zh_CN.UTF-8 LANGUAGE=zh_CN:zh:en_US:en
-# $HOME is '/home/jovyan'
 RUN bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'
 
 ENTRYPOINT ["bash"]
 CMD ["/usr/local/bin/my_start.sh"]
 
-# COPY ./notebooks/ ./jupyter_chinese
-# /usr/local/bin/start-notebook.sh

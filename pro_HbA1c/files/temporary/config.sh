@@ -11,7 +11,6 @@ python --version
 notebook_dir=${HOME}'/jupyter_chinese'
 mkdir $notebook_dir
 chmod 777 $notebook_dir -R
-cp -r ${HOME}/test_files/* $notebook_dir
 
 # prepare environment variables
 echo 'import sys' > python_lib_path.py
