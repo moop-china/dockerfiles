@@ -23,6 +23,7 @@ COPY ./requirements* ./
     # TOC extension and babel
 
 RUN rm /opt/conda/conda-meta/pinned\
+    && conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ \
     && conda install -y -c conda-forge -c simpleitk --file requirements.txt \
     && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
     && conda clean --all -y \
