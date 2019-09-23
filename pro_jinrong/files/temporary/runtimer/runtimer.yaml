@@ -1,0 +1,10 @@
+Type: Jupyter Notebook Extension
+Icon: icon.png
+Name: run Timer
+Main: main.js
+Link: README.md
+Description: |
+  Adds one tips , for example
+Compatibility: 3.x, 4.x, 5.x, 6.x
+Parameters:
+- none
