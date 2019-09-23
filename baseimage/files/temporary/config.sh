@@ -122,7 +122,8 @@ rm rebuild.py
 
 # ------
 chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
-
+mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/
+jupyter contrib nbextensions install
 # ------
 rm -r ${HOME}/temporary
 rm -r ${HOME}/test_files
