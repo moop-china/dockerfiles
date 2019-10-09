@@ -11,7 +11,8 @@ python --version
 notebook_dir=${HOME}'/jupyter_chinese'
 mkdir $notebook_dir
 chmod 777 $notebook_dir -R
-cp -r ${HOME}/test_files/* $notebook_dir
+
+conda install matplotlib
 
 # prepare environment variables
 echo 'import sys' > python_lib_path.py
@@ -121,6 +122,8 @@ rm rebuild.py
 # ------
 chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
 
+mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/
+jupyter contrib nbextensions install
 # ------
 rm -r ${HOME}/temporary
 

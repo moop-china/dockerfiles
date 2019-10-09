@@ -1,10 +1,12 @@
-FROM jupyter/base-notebook:38f518466042
+FROM jupyter/base-notebook
 
 LABEL maintainer="mooplab"
 
 USER root
 
-RUN apt-get update\
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
+    && rm -Rf /var/lib/apt/lists/* \
+    && apt-get update\
     # chinese localization
     && apt-get install -y fontconfig \
     ttf-mscorefonts-installer\
@@ -20,15 +22,14 @@ RUN apt-get update\
     && rm -rf /var/lib/apt/lists/* 
 
 COPY ./requirements* ./
-    # TOC extension and babel
 
-RUN rm /opt/conda/conda-meta/pinned\
+RUN rm /opt/conda/conda-meta/pinned \
+    && conda update conda --all \
     && conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ \
-    && conda install -y -c conda-forge -c simpleitk --file requirements.txt \
     && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
-    && conda clean --all -y \
     # notebooks' dependences from Tsinghua pypi mirror
-    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt
+    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt \
+    && conda clean --all -y 
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
