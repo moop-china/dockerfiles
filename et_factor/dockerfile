@@ -43,4 +43,3 @@ RUN rm /opt/conda/conda-meta/pinned\
 
 ENTRYPOINT ["bash"]
 CMD ["/usr/local/bin/my_start.sh"]
-# COPY ./探索患ET的危险因子 ${PRO_HOME}
