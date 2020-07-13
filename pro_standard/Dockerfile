@@ -18,6 +18,8 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
     libevent-dev \
     gcc \
     locales\
+    # customer package
+    git \
     && apt-get -y autoremove && apt-get -y autoclean\
     && rm -rf /var/lib/apt/lists/* 
 
@@ -48,7 +50,9 @@ COPY ./files/ ./
 RUN chown -R $NB_USER:$NB_GID ${HOME} \
     && cp $HOME/my_start.sh /usr/local/bin/my_start.sh \
     && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'\
-    && fix-permissions /home/$NB_USER
+    && fix-permissions /home/$NB_USER \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_html.py \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_base_renderers.py
 
 USER $NB_USER
 WORKDIR $HOME

@@ -4,7 +4,9 @@ LABEL maintainer="mooplab"
 
 USER root
 
-RUN apt-get update\
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
+    && rm -Rf /var/lib/apt/lists/* \
+    && apt-get update\
     # chinese localization
     && apt-get install -y fontconfig \
     ttf-mscorefonts-installer\
@@ -27,12 +29,10 @@ RUN rm /opt/conda/conda-meta/pinned\
     && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
     && conda clean --all -y \
     # notebooks' dependences from Tsinghua pypi mirror
-    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt \
+    # && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt \
+    && pip install --no-cache-dir -r requirements_pip.txt \
     # TOC extension and babel
-    && conda install -c conda-forge jupyter_contrib_nbextensions\
-    babel\
-    # extensions
-    autopep8
+    && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -51,7 +51,9 @@ COPY ./files/ ./
 RUN chown -R $NB_USER:$NB_GID ${HOME} \
     && cp $HOME/my_start.sh /usr/local/bin/my_start.sh \
     && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'\
-    && fix-permissions /home/$NB_USER
+    && fix-permissions /home/$NB_USER \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_html.py \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_base_renderers.py
 
 USER $NB_USER
 WORKDIR $HOME

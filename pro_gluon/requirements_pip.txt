@@ -1,0 +1,6 @@
+matplotlib
+numpy
+pandas
+mxnet==1.4.0
+d2lzh
+plotly==3.8.0

@@ -1,4 +1,5 @@
 svgling==0.3.0
+tqdm
 matplotlib==3.1.0
 numpy==1.16.4
 pandas==0.24.2
@@ -7,6 +8,7 @@ seaborn==0.9.0
 statsmodels==0.9.0
 xlrd==1.2.0
 plotly==3.8.0
-tqdm
-requests
-beautifulsoup4
+IPython
+ipywidgets
+tushare
+nb_pdf_template

@@ -1,0 +1,14 @@
+numpy
+pandas
+tensorboard==2.0.0
+tensorflow==1.15.0
+tensorflow-estimator==1.15.1
+opencv-python
+Image
+keras
+scikit-learn
+scipy
+seaborn
+matplotlib
+pyqt5
+plotly==3.8.0
