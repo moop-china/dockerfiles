@@ -1,0 +1,17 @@
+svgling
+tqdm
+matplotlib
+numpy
+pandas
+scipy
+seaborn
+statsmodels
+xlrd
+pandas-profiling
+tushare
+akshare
+pyecharts
+bs4
+plotly==3.8.0
+nb_pdf_template
+ipywidgets

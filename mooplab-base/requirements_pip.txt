@@ -1,0 +1,8 @@
+svgling
+tqdm
+matplotlib
+numpy
+pandas
+plotly==3.8.0
+nb_pdf_template
+ipywidgets

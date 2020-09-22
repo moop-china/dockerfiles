@@ -21,16 +21,32 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
     # customer package
     git \
     && apt-get -y autoremove && apt-get -y autoclean\
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements* ./
+COPY ./gurobi/* ./
 
+RUN mkdir -p /opt/gurobi \
+    && tar -zxvf gurobi9.0.2_linux64.tar.gz -C /opt\
+    && mv gurobi.lic /opt/gurobi
+
+ENV GUROBI_HOME="/opt/gurobi902/linux64"
+ENV PATH=$PATH:$GUROBI_HOME/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GUROBI_HOME/lib
+
+#install conda
 RUN rm /opt/conda/conda-meta/pinned \
-    && conda update conda --all \
-    && conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ \
-    && conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 \
-    # notebooks' dependences from Tsinghua pypi mirror
-    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt \
+    #&& conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ \
+    #&& conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ \
+    #&& conda config --set show_channel_urls yes \
+    && conda update conda --all 
+
+RUN conda install -c conda-forge jupyter_contrib_nbextensions babel autopep8 pip setuptools
+
+#install requirments
+COPY ./requirements* ./
+RUN pip install --no-cache-dir -r requirements_pip.txt
+
+RUN cd /opt/gurobi902/linux64/ && python setup.py install \
     && conda clean --all -y 
 
 ARG NB_USER="jovyan"

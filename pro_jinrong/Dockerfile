@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:38f518466042
+FROM jupyter/base-notebook
 
 LABEL maintainer="mooplab"
 
