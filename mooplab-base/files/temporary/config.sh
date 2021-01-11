@@ -125,6 +125,10 @@ jupyter nbextension enable hinterland/hinterland
 jupyter nbextension enable highlighter/highlighter
 
 # ------
+mkdir -p /home/jovyan/.jupyter/custom/
+cp ${HOME}/temporary/custom.* /home/jovyan/.jupyter/custom/
+
+# ------
 rm -r ${HOME}/temporary
 
 echo 'please manually flash cache if exist, under $HOME/.cache/matplotlib'
