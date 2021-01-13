@@ -98,11 +98,9 @@ sed -i "s/ | ascii_only//" $base
 
 # ------
 echo 'config jupyter'
-jupyter notebook --generate-config
+jupyter notebook --y --generate-config
+cp ${HOME}/temporary/jupyter_notebook_config.py /home/jovyan/.jupyter
 path=${HOME}'/.jupyter/jupyter_notebook_config.py'
-sed -i "/c.NotebookApp.ip/c c.NotebookApp.ip = '0.0.0.0'" $path
-# sed -i "/c.NotebookApp.token/c c.NotebookApp.token = 'welcome1'" $path
-sed -i "/c.NotebookApp.open_browser/c c.NotebookApp.open_browser = False" $path
 sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
 
 # ------
@@ -115,7 +113,6 @@ rm rebuild.py
 # ------
 chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
 
-mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/
 jupyter contrib nbextensions install
 jupyter nbextension list
 jupyter nbextension enable autosavetime/main
@@ -124,7 +121,7 @@ jupyter nbextension enable execute_time/ExecuteTime
 jupyter nbextension enable hinterland/hinterland
 jupyter nbextension enable highlighter/highlighter
 
-# ------
+# -copy customer-----
 mkdir -p /home/jovyan/.jupyter/custom/
 cp ${HOME}/temporary/custom.* /home/jovyan/.jupyter/custom/
 

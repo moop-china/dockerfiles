@@ -42,6 +42,7 @@ RUN apt-get update \
     libevent-dev \
     # Mooplab need packages
     git curl vim graphviz \
+    gcc python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev g++ \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -131,7 +132,11 @@ RUN conda install --quiet --yes \
     'notebook=6.1.3' \
     'jupyterhub=1.1.0' \
     'jupyterlab=2.2.5' && \
-    conda install --quiet --yes -c conda-forge jupyter_contrib_nbextensions babel autopep8 && \
+    conda install --quiet --yes -c conda-forge \
+       jupyter_contrib_nbextensions \
+       nbconvert \
+       babel \
+       autopep8 && \
     # Install customer pip requirements
     pip install --no-cache-dir -r requirements_pip.txt && \
     # install mooplab packages
