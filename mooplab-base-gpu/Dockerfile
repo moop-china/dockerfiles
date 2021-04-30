@@ -5,7 +5,8 @@
 # https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
 # OS/ARCH: linux/amd64
 #ARG ROOT_CONTAINER=ubuntu:focal-20200729@sha256:6f2fb2f9fb5582f8b587837afd6ea8f37d8d1d9e41168c90f410a6ef15fa8ce5
-ARG ROOT_CONTAINER=nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04@sha256:3b350453ec4c99513614de0531734260ea1c4e0216e59fc9e58803374a2db4f1
+#ARG ROOT_CONTAINER=nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04@sha256:3b350453ec4c99513614de0531734260ea1c4e0216e59fc9e58803374a2db4f1
+ARG ROOT_CONTAINER=nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04@sha256:c2bc34f62e696665c6984893be4b83929b0fa629d9b71f92636feaeefd0baf5f
 
 
 ARG BASE_CONTAINER=$ROOT_CONTAINER
@@ -27,10 +28,9 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.cn/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub \
  && apt-key adv --fetch-keys https://developer.download.nvidia.cn/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub \
  && echo "deb http://security.ubuntu.com/ubuntu xenial-security main" > /etc/apt/sources.list.d/cv.list 
-#RUN  apt-get -o Acquire::AllowInsecureRepositories=true \
-#-o Acquire::AllowDowngradeToInsecureRepositories=true \
-#update \
-RUN apt-get update \
+RUN  apt-get -o Acquire::AllowInsecureRepositories=true \
+-o Acquire::AllowDowngradeToInsecureRepositories=true \
+update \
  && apt-get install -yq --no-install-recommends \
     wget \
     bzip2 \
@@ -52,6 +52,7 @@ RUN apt-get update \
     git curl vim graphviz \
     # Opencv packages
     ffmpeg libgl1-mesa-glx \
+    x264 libx264-dev \
     libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev \
     libtbb2 libtbb-dev libjpeg-dev libpng-dev \

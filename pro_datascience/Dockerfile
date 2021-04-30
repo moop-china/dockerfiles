@@ -16,10 +16,16 @@ RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list \
     language-pack-zh-hans language-pack-zh-hans-base\
     graphviz\
     libevent-dev \
-    gcc \
+    gcc g++ gnupg\
     locales\
     && apt-get -y autoremove && apt-get -y autoclean\
     && rm -rf /var/lib/apt/lists/* 
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get -y install msodbcsql17 \
+    && apt-get install -y  unixodbc-dev
 
 COPY ./requirements* ./
 
@@ -36,7 +42,7 @@ RUN rm /opt/conda/conda-meta/pinned \
 	'r-formatR' \
 	'r-fgarch' \
     # notebooks' dependences from Tsinghua pypi mirror
-    && pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_pip.txt \
+    && pip install --no-cache-dir -r requirements_pip.txt \
     && conda clean --all -y 
 
 ARG NB_USER="jovyan"

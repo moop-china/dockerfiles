@@ -59,7 +59,8 @@ ENV CONDA_DIR=/opt/conda \
     LANG=zh_CN.UTF-8 \
     LANGUAGE=zh_CN.UTF-8
 ENV PATH=$CONDA_DIR/bin:$PATH \
-    HOME=/home/$NB_USER
+    HOME=/home/$NB_USER \
+    JUPYTER_CONFIG_DIR=/home/jupyterconf
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY fix-permissions /usr/local/bin/fix-permissions
@@ -75,7 +76,8 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
     useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
     mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
+    mkdir -p $JUPYTER_CONFIG_DIR && \
+    chown $NB_USER:$NB_GID $CONDA_DIR $JUPYTER_CONFIG_DIR && \
     chmod g+w /etc/passwd && \
     fix-permissions $HOME && \
     fix-permissions $CONDA_DIR

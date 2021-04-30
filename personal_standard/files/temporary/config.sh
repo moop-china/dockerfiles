@@ -10,7 +10,6 @@ python --version
 # prepare environment variables
 echo 'import sys' > python_lib_path.py
 echo 'from distutils.sysconfig import get_python_lib; print (get_python_lib())' >> python_lib_path.py
-# /opt/conda/lib/python3.7/site-packages
 lib_path=`python python_lib_path.py`
 
 echo 'import matplotlib' > matplotlib_path.py
@@ -115,7 +114,7 @@ rm rebuild.py
 # ------
 chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
 
-mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/
+mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.8/site-packages/jupyter_contrib_nbextensions/nbextensions/
 jupyter contrib nbextensions install
 jupyter nbextension list
 jupyter nbextension enable autosavetime/main

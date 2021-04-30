@@ -98,9 +98,10 @@ sed -i "s/ | ascii_only//" $base
 
 # ------
 echo 'config jupyter'
+JUPYTER_CONFIG_DIR=/home/jupyterconf
 jupyter notebook --y --generate-config
-cp ${HOME}/temporary/jupyter_notebook_config.py /home/jovyan/.jupyter
-path=${HOME}'/.jupyter/jupyter_notebook_config.py'
+cp ${HOME}/temporary/jupyter_notebook_config.py ${JUPYTER_CONFIG_DIR}
+path=${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
 sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
 
 # ------
@@ -111,7 +112,7 @@ python rebuild.py
 rm rebuild.py
 
 # ------
-chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
+chmod 777 ${JUPYTER_CONFIG_DIR}/nbconfig/notebook.json
 
 jupyter contrib nbextensions install
 jupyter nbextension list
@@ -122,8 +123,8 @@ jupyter nbextension enable hinterland/hinterland
 jupyter nbextension enable highlighter/highlighter
 
 # -copy customer-----
-mkdir -p /home/jovyan/.jupyter/custom/
-cp ${HOME}/temporary/custom.* /home/jovyan/.jupyter/custom/
+mkdir -p ${JUPYTER_CONFIG_DIR}/custom/
+cp ${HOME}/temporary/custom.* ${JUPYTER_CONFIG_DIR}/custom/
 
 # ------
 rm -r ${HOME}/temporary

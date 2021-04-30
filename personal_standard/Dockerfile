@@ -31,7 +31,6 @@ RUN rm /opt/conda/conda-meta/pinned \
     # notebooks' dependences from Tsinghua pypi mirror
     && pip install --no-cache-dir -r requirements_pip.txt \
     # install mooplab packages
-    && pip install https://github.com/sharkwang/pandas-profiling/releases/download/v2.9.0zh_CN/pandas_profiling-2.9.0zh_CN-py2.py3-none-any.whl \
     && conda clean --all -y 
 
 ARG NB_USER="jovyan"
@@ -52,8 +51,8 @@ RUN chown -R $NB_USER:$NB_GID ${HOME} \
     && cp $HOME/my_start.sh /usr/local/bin/my_start.sh \
     && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'\
     && fix-permissions /home/$NB_USER \
-    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_html.py \
-    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_base_renderers.py
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.8/site-packages/plotly/io/_html.py \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.8/site-packages/plotly/io/_base_renderers.py
 
 USER $NB_USER
 WORKDIR $HOME
