@@ -22,7 +22,7 @@ imageio==2.5.0
 ipykernel==5.1.0
 ipython==7.2.0
 jedi==0.13.2
-Jinja2==2.10
+Jinja2==2.11.3
 jsonschema==3.0.0a3
 kiwisolver==1.0.1
 Markdown==2.6.11
