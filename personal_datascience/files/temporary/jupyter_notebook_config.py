@@ -255,7 +255,7 @@ c.NotebookApp.ip = '0.0.0.0'
 #c.NotebookApp.nbserver_extensions = {}
 
 ## 用于笔记本和内核的目录。
-#c.NotebookApp.notebook_dir = ''
+c.NotebookApp.notebook_dir = ''
 
 ## Whether to open in a browser after starting. The specific browser used is
 #  platform dependent and determined by the python standard library `webbrowser`
@@ -648,13 +648,14 @@ c.NotebookApp.tornado_settings = { 'headers': { 'Content-Security-Policy': "fram
 #  will be much more efficient.
 #  
 #  Access to these files should be Authenticated.
-#c.ContentsManager.files_handler_class = 'notebook.files.handlers.FilesHandler'
+
+# c.ContentsManager.files_handler_class = 'notebook.files.handlers.FilesHandler'
 
 ## Extra parameters to pass to files_handler_class.
 #  
 #  For example, StaticFileHandlers generally expect a `path` argument specifying
 #  the root directory from which to serve files.
-#c.ContentsManager.files_handler_params = {}
+# c.ContentsManager.files_handler_params = {}
 
 ## Glob patterns to hide in file and directory listings.
 #c.ContentsManager.hide_globs = ['__pycache__', '*.pyc', '*.pyo', '.DS_Store', '*.so', '*.dylib', '*~']

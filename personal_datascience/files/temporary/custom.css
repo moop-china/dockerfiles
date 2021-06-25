@@ -1,0 +1,346 @@
+/* syl */
+
+#maintoolbar-container #run_int .btn[data-jupyter-action="jupyter-notebook:confirm-restart-kernel-and-run-all-cells"] {
+    display: none;
+}
+
+#ipython_notebook, #notebook_name, #kernel_logo_widget, #login_widget, #modal_indicator, #cut_copy_paste, #cmd_palette, #cell_type {
+    display: none;
+}
+
+/* 菜单button */
+div#menubar-container, div#header-container{padding-left: 0 !important}
+
+.btn.btn-default.btn-sm.navbar-btn.pull-right{display: none}
+
+#Navigate, #shutdown_widget {
+    display: none;
+}
+
+#new_notebook, #open_notebook, #copy_notebook, #print_preview, #close_and_halt, #trust_notebook {
+    display: none;
+}
+
+#tab_content {
+    padding-top: 0;
+}
+
+#help_menu li {
+    display: none;
+}
+
+#help_menu li:nth-child(2), #help_menu li:nth-child(3) {
+    display: block;
+}
+
+ul #widget-submenu~a {
+    display: none !important;
+}
+
+/* .navbar-nav>li:nth-child(7) {
+    display: none;
+} */
+
+.navbar-nav>li:nth-last-child(2) {
+    display: none;
+}
+
+#file_menu .divider {
+    display: none;
+}
+
+#header-container {
+    display: block !important;
+}
+
+body>#header #header-container {
+    padding: 0 !important;
+}
+
+#heade {
+    position: relative;
+}
+
+#save_widget {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 255px;
+    line-height: 27px;
+}
+
+.container {
+    width: 100%;
+}
+
+.kernel_idle_icon:before {
+    color: #1565f7;
+    margin-right: 20px;
+}
+
+.btn-default {
+    border-color: #fff;
+    border-radius: 4px !important;
+    border: none;
+}
+
+.btn-default:hover {
+    border-color: #fff;
+    border-radius: 4px;
+}
+
+.navbar-default {
+    border-left: none;
+}
+
+.toolbar select, .toolbar label {
+    padding-top: 0;
+}
+
+.toolbar {
+    margin-left: 0;
+}
+
+div#notebook {
+    width: 80%;
+    margin: 0px auto;
+    padding-top: 30px;
+}
+
+#notebook-container {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+/* code */
+
+#notebook div.code_cell .run-code-btn, #notebook div.text_cell .run-code-btn {
+    position: absolute;
+    left: 10px;
+    top: 2px;
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 30px;
+    background-color: #f4f4f4;
+    font-size: 24px;
+    color: #1565f7;
+    cursor: pointer;
+}
+
+#notebook div.selected .run-code-btn {
+    display: block;
+}
+
+#notebook div.unselected .run-code-btn {
+    display: none;
+}
+
+/* #notebook div.text_cell.unrendered.selected .run-code-btn {
+    display: block;
+} */
+
+#notebook div.text_cell.rendered.selected .run-code-btn, #notebook div.text_cell.rendered.unselected .run-code-btn {
+    display: none !important;
+}
+
+#notebook .code-tools {
+    position: absolute;
+    top: -22px;
+    right: 6px;
+    height: 26px;
+    background-color: #fff;
+    z-index: 10;
+    border: solid 1px #ddd;
+    border-radius: 4px;
+}
+
+#notebook div.text_cell .code-tools {
+    top: -26px;
+}
+
+#notebook div.text_cell span.markdown-btn {
+    color: #1565f7;
+}
+
+#notebook div.text_cell span.code-btn {
+    color: #333;
+}
+
+#notebook div.code_cell span.markdown-btn {
+    color: #333;
+}
+
+#notebook div.code_cell span.code-btn {
+    color: #1565f7;
+}
+
+#notebook div.selected .code-tools {
+    display: block;
+}
+
+#notebook div.unselected .code-tools {
+    display: none;
+}
+
+.edit_mode div.cell.selected {
+    border-color: #fff;
+}
+
+div.cell.selected:before, div.cell.selected.jupyter-soft-selected:before {
+    background-color: #1565f7;
+}
+
+#notebook div.cell .add-tools {
+    left: 14ex;
+    bottom: 0;
+    height: 30px;
+    opacity: 0;
+    position: absolute;
+}
+
+div.inner_cell {
+    flex: 1 100%;
+}
+
+#notebook .tool-container {
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    font-size: 12px;
+}
+
+#notebook .tool-container.delete-cell {
+    border-right: none;
+}
+
+#notebook div.code_cell .tool-container span, #notebook div.text_cell .tool-container span {
+    display: inline-block;
+    position: relative;
+    padding: 0 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#notebook div.code_cell .tool-container span .btn-tooltip, #notebook div.text_cell .tool-container span .btn-tooltip {
+    position: absolute;
+    top: -25px;
+    border-radius: 4px;
+    padding: 2px 10px;
+    color: #fff;
+    white-space: nowrap;
+    background-color: #333;
+    z-index: 11;
+    font-size: 12px;
+}
+
+#notebook div.code_cell .tool-container span .btn-tooltip::before, #notebook div.text_cell .tool-container span .btn-tooltip::before {
+    content: "";
+    position: absolute;
+    right: calc(50% - 5px);
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border: #333 5px solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+#notebook div.code_cell .tool-container span.select, #notebook div.text_cell .tool-container span.select {
+    font-weight: bold;
+}
+
+#notebook div.code_cell .tool-container span:hover, #notebook div.code_cell .tool-container span:focus, #notebook div.text_cell .tool-container span:hover, #notebook div.text_cell .tool-container span:focus {
+    color: #1565f7;
+}
+
+#notebook div.code_cell .tool-container.add-cell span, #notebook div.text_cell .tool-container.add-cell span {
+    /* background-color: #1565f7; */
+    /* color: #fff; */
+    /* border-radius: 4px; */
+}
+
+#notebook div.code_cell .tool-container.add-cell span:hover, #notebook div.code_cell .tool-container.add-cell span:focus, #notebook div.text_cell .tool-container.add-cell span:hover, #notebook div.text_cell .tool-container.add-cell span:focus {
+    /* color: #fff; */
+}
+
+#notebook div.code_cell .tool-container.delete-cell span, #notebook div.text_cell .tool-container.delete-cell span {
+    /* color: #ff5c5d; */
+    /* font-size: 16px; */
+}
+
+#notebook div.code_cell .tool-container.delete-cell span:hover, #notebook div.code_cell .tool-container.delete-cell span:focus, #notebook div.text_cell .tool-container.delete-cell span:hover, #notebook div.text_cell .tool-container.delete-cell span:focus {
+    /* color: #ff5c5d; */
+}
+
+div.prompt:empty {
+    background-color: #fff;
+    border-color: #fff;
+}
+
+div.cell.selected div.prompt:empty, div.cell.selected.jupyter-soft-selected div.prompt:empty {
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+}
+
+div.cell {
+    padding-bottom: 33px !important;
+}
+
+.CodeMirror-lines {
+    background-color: #fff;
+}
+
+div.out_prompt_overlay:hover {
+    background-color: #fff;
+    box-shadow: none;
+}
+
+div.cell.selected, div.cell.selected.jupyter-soft-selected {
+    border-color: #fff;
+}
+
+div.cell.selected, div.cell.selected.jupyter-soft-selected {
+    border-color: #f4f4f4;
+    background-color: #f4f4f4;
+}
+
+.btn-group>.btn {
+    outline: none !important;
+}
+
+.add-cell-code, .add-cell-markdown {
+    background: rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(222, 223, 224);
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    height: 2em;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 110px;
+    position: relative;
+    z-index: 1;
+    float: left;
+    margin-right: 5px;
+}
+
+.add-cell-code:hover, .add-cell-markdown:hover {
+    color: #1565f7;
+}
+
+#maintoolbar {
+    display: block !important;
+}
+
+#batch_runall {
+    margin-left: 0;
+}
+
+.edit_mode div.cell.selected::before {
+    background: #1565f7;
+}

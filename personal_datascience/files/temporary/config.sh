@@ -10,7 +10,7 @@ python --version
 # prepare environment variables
 echo 'import sys' > python_lib_path.py
 echo 'from distutils.sysconfig import get_python_lib; print (get_python_lib())' >> python_lib_path.py
-# /opt/conda/lib/python3.7/site-packages
+# /opt/conda/lib/python3.8/site-packages
 lib_path=`python python_lib_path.py`
 
 echo 'import matplotlib' > matplotlib_path.py
@@ -98,12 +98,11 @@ sed -i "s/ | ascii_only//" $base
 
 # ------
 echo 'config jupyter'
-jupyter notebook --generate-config
-path=${HOME}'/.jupyter/jupyter_notebook_config.py'
-sed -i "/c.NotebookApp.ip/c c.NotebookApp.ip = '0.0.0.0'" $path
-# sed -i "/c.NotebookApp.token/c c.NotebookApp.token = 'welcome1'" $path
-sed -i "/c.NotebookApp.open_browser/c c.NotebookApp.open_browser = False" $path
-sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
+jupyter notebook -y --generate-config
+cp ${HOME}/temporary/jupyter_notebook_config.py ${JUPYTER_CONFIG_DIR}
+cp ${HOME}/temporary/files_handlers.py ${JUPYTER_CONFIG_DIR}
+# path=${HOME}'/.jupyter/jupyter_notebook_config.py'
+# sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
 
 # ------
 echo 'matpolotlib rebuild'
@@ -115,7 +114,7 @@ rm rebuild.py
 # ------
 chmod 777 /home/jovyan/.jupyter/nbconfig/notebook.json
 
-mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/
+mv ${HOME}/temporary/runtimer /opt/conda/lib/python3.8/site-packages/jupyter_contrib_nbextensions/nbextensions/
 jupyter contrib nbextensions install
 jupyter nbextension list
 jupyter nbextension enable autosavetime/main
@@ -124,6 +123,11 @@ jupyter nbextension enable execute_time/ExecuteTime
 jupyter nbextension enable hinterland/hinterland
 jupyter nbextension enable highlighter/highlighter
 jupyter nbextension enable widgetsnbextension
+
+# -copy customer-----
+mkdir -p ${JUPYTER_CONFIG_DIR}/custom/
+cp ${HOME}/temporary/custom.* ${JUPYTER_CONFIG_DIR}/custom/
+
 
 # ------
 rm -r ${HOME}/temporary

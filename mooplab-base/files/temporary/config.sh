@@ -101,6 +101,7 @@ echo 'config jupyter'
 JUPYTER_CONFIG_DIR=/home/jupyterconf
 jupyter notebook --y --generate-config
 cp ${HOME}/temporary/jupyter_notebook_config.py ${JUPYTER_CONFIG_DIR}
+cp ${HOME}/temporary/files_handlers.py ${JUPYTER_CONFIG_DIR}
 path=${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
 sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
 

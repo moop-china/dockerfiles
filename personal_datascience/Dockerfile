@@ -46,14 +46,16 @@ ENV PATH=$CONDA_DIR/bin:$PATH
 
 ENV ENV_NAME="base" 
 
+ENV JUPYTER_CONFIG_DIR=/home/jupyterconf
+
 COPY ./files/ ./
 
-RUN chown -R $NB_USER:$NB_GID ${HOME} \
+RUN mkdir -p $JUPYTER_CONFIG_DIR && chown -R $NB_USER:$NB_GID ${HOME} $JUPYTER_CONFIG_DIR\
     && cp $HOME/my_start.sh /usr/local/bin/my_start.sh \
     && bash -c '/bin/echo -e "y\n" | bash ./temporary/config.sh'\
     && fix-permissions /home/$NB_USER \
-    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_html.py \
-    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.7/site-packages/plotly/io/_base_renderers.py
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.8/site-packages/plotly/io/_html.py \
+    && sed -i s@/cdn.plot.ly/@/cdn.mooplab.com/@g /opt/conda/lib/python3.8/site-packages/plotly/io/_base_renderers.py
 
 USER $NB_USER
 WORKDIR $HOME

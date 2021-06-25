@@ -111,6 +111,8 @@ sed -i "/c.NotebookApp.ip/c c.NotebookApp.ip = '0.0.0.0'" $path
 # sed -i "/c.NotebookApp.token/c c.NotebookApp.token = 'welcome1'" $path
 sed -i "/c.NotebookApp.open_browser/c c.NotebookApp.open_browser = False" $path
 sed -i "/c.NotebookApp.notebook_dir/c c.NotebookApp.notebook_dir = '$notebook_dir' " $path
+cat ${HOME}
+cat ${HOME}/temporary/file.py >> $path
 
 # ------
 echo 'matpolotlib rebuild'
