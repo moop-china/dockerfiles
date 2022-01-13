@@ -5,7 +5,7 @@ scikit-image==0.16.2
 matplotlib
 tqdm==4.43.0
 easydict==1.9
-Pillow==7.1.2
+Pillow==9.0.0
 opencv_python
 pycocotools
 pandas
